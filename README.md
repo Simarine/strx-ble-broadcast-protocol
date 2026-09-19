@@ -11,6 +11,7 @@ broadcasts the tank level, so a host can read it without connecting.
 ## Layout
 
 ```text
+LICENSE                   MIT license
 STRx-ble-advertising.md   specification, version in the title
 docs/img/                 app screenshots used by the specification
 scripts/export-html.py    renders the specification to one self-contained HTML file
@@ -35,3 +36,7 @@ Writes `STRx-ble-advertising.html` with the screenshots embedded. The output is 
 
 Issues and pull requests are welcome for the examples and for errors in the specification.
 Protocol changes are made by Simarine together with the firmware.
+
+## License
+
+MIT, see [LICENSE](LICENSE). The specification, the examples and the scripts are all covered.
