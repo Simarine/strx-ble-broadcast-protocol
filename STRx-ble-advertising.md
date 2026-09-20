@@ -1,10 +1,10 @@
-<!-- Public specification of the STRx BLE broadcast. Keep the version in the title equal to the protocol version of the firmware it describes. This document is handed to customers and third parties on its own, so it must not refer to the connected protocol document. scripts/export-html.py renders it to a single HTML file with the images under docs/img embedded. -->
+<!-- Public specification of the STRx BLE broadcast. The version in the title is this document's own, independent of the firmware protocol version carried on the wire; bump it on every content change and tag the commit with the same version, which publishes a release with the HTML export. This document is handed to customers and third parties on its own, so it must not refer to the connected protocol document. scripts/export-html.py renders it to a single HTML file with the images under docs/img embedded. -->
 
-# STRx BLE Broadcasting and Device Discovery v1.9.8
+# STRx BLE Broadcasting and Device Discovery v1.0.0
 
 This document describes how the STRx radar tank level meter announces itself over Bluetooth Low Energy and how it broadcasts the tank level: the advertising parameters, the service data UUIDs used to filter STRx devices while scanning, the layout of the advertising and scan response payloads, how the broadcast is protected, and how to build the device display name shown to the user. It covers everything a host application needs to discover a device and read the broadcast tank data without connecting to it. The broadcast is switched on, and its encryption key obtained, in the Simarine Connect app, see _Enabling the Broadcast_.
 
-Hosts that also connect to the device to configure it need the *STRx Bluetooth Protocol* specification of the same version, which Simarine provides to integration partners.
+Hosts that also connect to the device to configure it need the *STRx Bluetooth Protocol* specification, which Simarine provides to integration partners.
 
 ## Device Discovery and Filtering
 
@@ -174,6 +174,10 @@ packet-beta
   field.
 - `PROTOCOL_VERSION_MINOR` - Incremented on backward-compatible additions, typically new trailing
   fields. A host may safely ignore fields it does not recognise.
+
+  The two fields carry the firmware's protocol version, which also moves when only the connected
+  protocol changes. It is not the version of this document; each release of this document states
+  the firmware protocol versions it describes.
 - `SERIAL_PREFIX` - Last 4 digits of the serial number (`serial_number % 10000`), range [0-9999].
   `0xFFFF` if the serial number is not provisioned yet. Rendered zero-padded to four digits, see
   _Constructing the Display Name_. It stays in the scan response by design: the display name and

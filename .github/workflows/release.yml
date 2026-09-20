@@ -1,0 +1,48 @@
+# Publish a release of the specification on a pushed version tag.
+# The tag must equal the version in the specification title.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check that the tag matches the specification title
+        run: |
+          TITLE_VERSION=$(sed -n 's/^# .*v\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p' STRx-ble-advertising.md | head -1)
+          if [ "v${TITLE_VERSION}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} but the specification title says v${TITLE_VERSION}" >&2
+            exit 1
+          fi
+
+      - name: Run the parser tests
+        run: python -m unittest discover -s examples/python
+
+      - name: Export HTML
+        run: |
+          pip install -q markdown-it-py
+          python scripts/export-html.py
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "STRx BLE Broadcast Protocol ${GITHUB_REF_NAME}" \
+            --generate-notes \
+            STRx-ble-advertising.html STRx-ble-advertising.md

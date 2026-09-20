@@ -15,14 +15,19 @@ LICENSE                   MIT license
 STRx-ble-advertising.md   specification, version in the title
 docs/img/                 app screenshots used by the specification
 scripts/export-html.py    renders the specification to one self-contained HTML file
+.github/workflows/        release on a pushed version tag, with the HTML export attached
 examples/python/          reference parser and scanner
 ```
 
 ## Versioning
 
-The version in the specification title is the protocol version of the firmware it describes.
-The major number changes on incompatible layout changes, the minor on backward-compatible additions.
-Tags of this repository follow the same version.
+The version in the specification title is the version of this document. It is independent of the
+firmware protocol version the device advertises in `PROTOCOL_VERSION_MAJOR/MINOR`, which also moves
+when only the connected protocol changes. The major number changes on incompatible layout changes,
+the minor on backward-compatible additions, the patch on editorial changes.
+
+Every content change bumps the version. Tagging the commit `vX.Y.Z`, equal to the title, publishes a
+GitHub release with the rendered HTML attached; the workflow refuses a tag that differs from the title.
 
 ## Export
 

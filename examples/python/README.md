@@ -18,4 +18,4 @@ python scan.py -a AA:BB:CC:DD:EE:FF -k <32 hex>  # with the key from the app
 | `test_strx_broadcast.py` | Offline checks, `python -m unittest test_strx_broadcast`         |
 
 `strx_broadcast.py` takes the two service data payloads as bytes, so it can be reused with any BLE
-stack. It implements the v1.9 layout only.
+stack. It implements the firmware protocol v1.9 layout only.
